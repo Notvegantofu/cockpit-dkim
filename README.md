@@ -1,6 +1,6 @@
-# Cockpit Starter Kit
+# Cockpit DKIM
 
-Scaffolding for a [Cockpit](https://cockpit-project.org/) module.
+Plugin to manage DKIM certificates over cockpit
 
 # Development dependencies
 
@@ -18,8 +18,8 @@ On Fedora:
 These commands check out the source and build it into the `dist/` directory:
 
 ```
-git clone https://github.com/cockpit-project/starter-kit.git
-cd starter-kit
+git clone https://github.com/Notvegantofu/cockpit-dkim/actions
+cd cockpit-dkim
 make
 ```
 
@@ -39,7 +39,7 @@ this manually:
 
 ```
 mkdir -p ~/.local/share/cockpit
-ln -s `pwd`/dist ~/.local/share/cockpit/starter-kit
+ln -s `pwd`/dist ~/.local/share/cockpit/dkim
 ```
 
 After changing the code and running `make` again, reload the Cockpit page in
@@ -70,11 +70,11 @@ set to upload code changes to `~/.local/share/cockpit/` instead of
 To "uninstall" the locally installed version, run `make devel-uninstall`, or
 remove manually the symlink:
 
-    rm ~/.local/share/cockpit/starter-kit
+    rm ~/.local/share/cockpit/dkim
 
 # Running eslint
 
-Cockpit Starter Kit uses [ESLint](https://eslint.org/) to automatically check
+Cockpit-dkim uses [ESLint](https://eslint.org/) to automatically check
 JavaScript/TypeScript code style in `.js[x]` and `.ts[x]` files.
 
 eslint is executed as part of `test/static-code`, aka. `make codecheck`.
@@ -136,7 +136,7 @@ These tests can be run in [Cirrus CI](https://cirrus-ci.org/), on their free
 [Linux Containers](https://cirrus-ci.org/guide/linux/) environment which
 explicitly supports `/dev/kvm`. Please see [Quick
 Start](https://cirrus-ci.org/guide/quick-start/) how to set up Cirrus CI for
-your project after forking from starter-kit.
+your project.
 
 The included [.cirrus.yml](./.cirrus.yml) runs the integration tests for two
 operating systems (Fedora and CentOS 8). Note that if/once your project grows
@@ -152,15 +152,6 @@ tests are wrapped in the [FMF metadata format](https://github.com/teemtee/fmf)
 for using with the [tmt test management tool](https://docs.fedoraproject.org/en-US/ci/tmt/).
 Note that Packit tests can *not* run their own virtual machine images, thus
 they only run [@nondestructive tests](https://github.com/cockpit-project/cockpit/blob/main/test/common/testlib.py).
-
-# Customizing
-
-After cloning the Starter Kit you should rename the files, package names, and
-labels to your own project's name. Use these commands to find out what to
-change:
-
-    find -iname '*starter*'
-    git grep -i starter
 
 # Automated release
 
@@ -191,10 +182,3 @@ It is important to keep your [NPM modules](./package.json) up to date, to keep
 up with security updates and bug fixes. This happens with
 [dependabot](https://github.com/dependabot),
 see [configuration file](.github/dependabot.yml).
-
-# Further reading
-
- * The [Starter Kit announcement](https://cockpit-project.org/blog/cockpit-starter-kit.html)
-   blog post explains the rationale for this project.
- * [Cockpit Deployment and Developer documentation](https://cockpit-project.org/guide/latest/)
- * [Make your project easily discoverable](https://cockpit-project.org/blog/making-a-cockpit-application.html)
