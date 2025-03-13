@@ -60,7 +60,6 @@ export const AddForm: React.FunctionComponent = () => {
 
   function addKeyPair() {
     if (!(domain && selector && privateKey)) {
-      console.error("Domain Missing!");
       setValidDomainInput(domain !== '');
       setValidSelectorInput(selector !== '');
       setValidPrivateKeyInput(privateKey !== '');
@@ -136,7 +135,7 @@ export const AddForm: React.FunctionComponent = () => {
         label="Private Key"
         fieldId='simple-form-privateKey-01'
       >
-        <FileUpload
+        <FileUpload   // The implementation of FileUpload seems to not be consistent with the documentation. This approch however does work perfectly fine
           id="customized-preview-file"
           value={file}
           filename={fileName}
