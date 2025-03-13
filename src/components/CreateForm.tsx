@@ -116,7 +116,7 @@ export const CreateForm: React.FunctionComponent = () => {
         <Button variant="link" onClick={clearInput}>Cancel</Button>
       </ActionGroup>
       <FormGroup
-        label="Public Key (Click to Copy to Clipboard)"
+        label="Public Key (Click to Copy to Clipboard)od"
         fieldId="simple-form-publicKey-01"
       >
         <TextArea

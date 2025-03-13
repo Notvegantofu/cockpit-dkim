@@ -20,6 +20,7 @@ export const HorizontalNav: React.FunctionComponent<NavBarProps> = ({ setAction 
         {action.map((value, index) => {
           return (
             <NavItem
+              className='force-color'
               preventDefault
               key={index}
               itemId={index}

@@ -1,5 +1,11 @@
 @use "page.scss";
 
+html, body {
+    height: 100%;
+    padding: 10px;
+    overflow: auto !important;
+}
+
 p {
     font-weight: bold;
 }
@@ -18,4 +24,8 @@ p {
 
 #simple-form-publicKey-01 {
     cursor: pointer;
+}
+
+.force-color {
+    color: #666;
 }
