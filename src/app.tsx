@@ -21,13 +21,14 @@ import React, { useEffect, useState } from 'react';
 import { Stack, StackItem, Divider } from "@patternfly/react-core";
 import { HorizontalNav } from './components/HorizontalNav';
 import { KeyTable } from './components/KeyTable'
+import { AddForm } from './components/AddForm'
 
 export const Application = () => {
     const [siteContent, setSiteContent] = useState(0);
     
     const contentOptions = [
         <StackItem><KeyTable/></StackItem>,
-        <StackItem></StackItem>,
+        <StackItem><AddForm/></StackItem>,
         <StackItem></StackItem>
     ]
 
