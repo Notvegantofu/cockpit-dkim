@@ -75,4 +75,4 @@ remove manually the symlink:
 # Based on the Cockpit Starter Kit
 
 This plugin is a fork of the cockpit-starter-kit. Feel free to check that out on their [Github](https://github.com/cockpit-project/starter-kit).
-There you can alos find additional information on contributing to the project, testing etc.
+There you can also find additional information on contributing to the project, testing etc.
