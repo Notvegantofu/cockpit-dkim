@@ -27,10 +27,12 @@ import { ApplyButton } from './components/ApplyButton';
 
 export const Application = () => {
     const [siteContent, setSiteContent] = useState(0);
-    const [rows, setRows] = useState<DkimData[]>([]);
+    const rowState = useState<DkimData[]>([]);
+    const searchState = useState('');
+    const readyState = useState(false);
     
     const contentOptions = [
-        <StackItem><KeyTable rows={rows} setRows={setRows}/></StackItem>,
+        <StackItem><KeyTable rowState={rowState} searchState={searchState} readyState={readyState}/></StackItem>,
         <StackItem><AddForm/></StackItem>,
         <StackItem><CreateForm/></StackItem>
     ]

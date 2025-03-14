@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import { Bullseye, EmptyState, EmptyStateVariant, EmptyStateIcon, EmptyStateHeader, SearchInput, Button, Spinner} from '@patternfly/react-core'
 import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
@@ -12,13 +12,15 @@ export interface DkimData {
 }
 
 interface TableProps {
-  rows: DkimData[];
-  setRows: React.Dispatch<React.SetStateAction<DkimData[]>>;
+  rowState: [DkimData[], Dispatch<SetStateAction<DkimData[]>>];
+  searchState: [string, React.Dispatch<React.SetStateAction<string>>];
+  readyState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 }
 
-export const KeyTable: React.FunctionComponent<TableProps> = ({ rows, setRows }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [ready, setReady] = useState(false);
+export const KeyTable: React.FunctionComponent<TableProps> = ({ rowState, searchState, readyState }) => {
+  const [ rows, setRows ] = rowState;
+  const [searchValue, setSearchValue] = searchState;
+  const [ready, setReady] = readyState;
   const filteredRows = rows.filter(onFilter);
   const DIR = `/opendkim`;
   const KEYTABLE = `${DIR}/key.table`;
