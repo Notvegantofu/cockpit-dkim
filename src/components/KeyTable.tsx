@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
-import { Bullseye, EmptyState, EmptyStateVariant, EmptyStateIcon, EmptyStateHeader, SearchInput, Button} from '@patternfly/react-core'
+import { Bullseye, EmptyState, EmptyStateVariant, EmptyStateIcon, EmptyStateHeader, SearchInput, Button, Spinner} from '@patternfly/react-core'
 import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import { ClipBoardButton } from './ClipBoardButton';
 import cockpit from 'cockpit';
@@ -18,6 +18,7 @@ interface TableProps {
 
 export const KeyTable: React.FunctionComponent<TableProps> = ({ rows, setRows }) => {
   const [searchValue, setSearchValue] = useState('');
+  const [ready, setReady] = useState(false);
   const filteredRows = rows.filter(onFilter);
   const DIR = `/opendkim`;
   const KEYTABLE = `${DIR}/key.table`;
@@ -51,6 +52,7 @@ export const KeyTable: React.FunctionComponent<TableProps> = ({ rows, setRows })
       result.push({domain: domain, selector: selector, publicKey: publicKey})
     }
     setRows(result);
+    setReady(true);
   }
 
   function copyToClipBoard(publicKey: string) {
@@ -84,7 +86,8 @@ export const KeyTable: React.FunctionComponent<TableProps> = ({ rows, setRows })
   const DataRows: React.FunctionComponent = () => {
     return (
       <>
-        {filteredRows.length === 0 ? <MissingData/> : filteredRows.map((dkimData) => (
+        {!ready ? <LoadingData/> :
+        filteredRows.length === 0 ? <MissingData/> : filteredRows.map((dkimData) => (
           <Tr key={dkimData.domain}>
             <Td dataLabel={columnNames.domain}>{dkimData.domain}</Td>
             <Td dataLabel={columnNames.selector}>{dkimData.selector}</Td>
@@ -106,6 +109,18 @@ export const KeyTable: React.FunctionComponent<TableProps> = ({ rows, setRows })
                 headingLevel="h2"
               />
             </EmptyState>
+          </Bullseye>
+        </Td>
+      </Tr>
+    )
+  }
+
+  const LoadingData: React.FunctionComponent = () => {
+    return (
+      <Tr>
+        <Td colSpan={3}>
+          <Bullseye>
+            <Spinner/>
           </Bullseye>
         </Td>
       </Tr>

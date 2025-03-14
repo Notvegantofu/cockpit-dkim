@@ -12,7 +12,9 @@ import {
   Card,
   CardTitle,
   CardBody,
-  CardFooter
+  CardFooter,
+  ClipboardCopy,
+  ClipboardCopyVariant
 } from '@patternfly/react-core';
 import cockpit from 'cockpit';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
@@ -116,17 +118,12 @@ export const CreateForm: React.FunctionComponent = () => {
         <Button variant="link" onClick={clearInput}>Cancel</Button>
       </ActionGroup>
       <FormGroup
-        label="Public Key (Click to Copy to Clipboard)od"
+        label="Public Key"
         fieldId="simple-form-publicKey-01"
       >
-        <TextArea
-          value={publicKey}
-          id="simple-form-publicKey-01"
-          name="simple-form-publicKey-01"
-          autoResize
-          readOnly
-          onClick={copyToClipBoard}
-        />
+        <ClipboardCopy isReadOnly hoverTip="Copy" clickTip="Copied" variant={ClipboardCopyVariant.expansion}>
+          {publicKey}
+        </ClipboardCopy>
       </FormGroup>
     </Form>
   );
