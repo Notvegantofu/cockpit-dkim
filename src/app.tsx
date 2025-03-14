@@ -20,24 +20,29 @@
 import React, { useEffect, useState } from 'react';
 import { Stack, StackItem, Divider } from "@patternfly/react-core";
 import { HorizontalNav } from './components/HorizontalNav';
-import { KeyTable } from './components/KeyTable'
+import { KeyTable, DkimData } from './components/KeyTable'
 import { AddForm } from './components/AddForm'
 import { CreateForm } from './components/CreateForm'
+import { ApplyButton } from './components/ApplyButton';
 
 export const Application = () => {
     const [siteContent, setSiteContent] = useState(0);
+    const [rows, setRows] = useState<DkimData[]>([]);
     
     const contentOptions = [
-        <StackItem><KeyTable/></StackItem>,
+        <StackItem><KeyTable rows={rows} setRows={setRows}/></StackItem>,
         <StackItem><AddForm/></StackItem>,
         <StackItem><CreateForm/></StackItem>
     ]
 
     return (
-        <Stack>
-            <StackItem><HorizontalNav setAction={setSiteContent}/></StackItem>
-            <StackItem><Divider/></StackItem>
-            {contentOptions[siteContent]}
-        </Stack>
+        <>
+            <ApplyButton/>
+            <Stack>
+                <StackItem><HorizontalNav setAction={setSiteContent}/></StackItem>
+                <StackItem><Divider/></StackItem>
+                {contentOptions[siteContent]}
+            </Stack>
+        </>
     );
 };

@@ -4,14 +4,11 @@ html, body {
     height: 100%;
     padding: 10px;
     overflow: auto !important;
+    position: relative;
 }
 
 p {
     font-weight: bold;
-}
-
-.pf-v5-l-stack {
-    padding: 25px;
 }
 
 .pf-v5-c-divider {
@@ -28,4 +25,11 @@ p {
 
 .force-color {
     color: #666;
+}
+
+#apply-button {
+    position: absolute !important;
+    top: 25px;
+    right: 25px;
+    z-index: 1000;
 }
