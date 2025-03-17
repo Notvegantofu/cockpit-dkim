@@ -17,7 +17,7 @@
  * along with Cockpit; If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Stack, StackItem, Divider } from "@patternfly/react-core";
 import { HorizontalNav } from './components/HorizontalNav';
 import { KeyTable, DkimData } from './components/KeyTable'

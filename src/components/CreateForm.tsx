@@ -8,11 +8,6 @@ import {
   FormHelperText,
   HelperText,
   HelperTextItem,
-  TextArea,
-  Card,
-  CardTitle,
-  CardBody,
-  CardFooter,
   ClipboardCopy,
   ClipboardCopyVariant
 } from '@patternfly/react-core';
@@ -71,10 +66,6 @@ export const CreateForm: React.FunctionComponent = () => {
   function clearInput() {
     setDomain('');
     setSelector(standartSelector);
-  }
-
-  function copyToClipBoard() {
-    navigator.clipboard.writeText(publicKey);
   }
 
   return (
