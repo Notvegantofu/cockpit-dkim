@@ -61,7 +61,7 @@ export const CreateForm: React.FunctionComponent = () => {
         .then(() => cockpit.spawn(["sudo", "chmod", "0700", directory], {"superuser": "require"}))
         .then(() => cockpit.spawn(["sudo", "-u", "opendkim", "opendkim-genkey", "-b", "2048", "-d", domain, "-s", selector, "-D", directory], {"superuser": "require"}))
         .then(() => cockpit.file(publicKeyLocation, {"superuser": "require"}).modify(oldContent => (oldContent || "").split(/[\(\)]/)[1].replace(/[\s"]/g, "")))
-        .then((content) => handlePublicKeyChange(content))  // The type annotation by the cockpit API is not correct. The return value is of String, String not [String, String]
+        .then((content) => handlePublicKeyChange(content))  // The type annotation by the cockpit API is not correct. The return value is of String, String not [String, String] This however does go against the specs of ES6 as you should not be able to pass multiple arguments in the resolve of a promise, sadly I found no way to avoid this problem, as [content] gives just the first character of the key.
         .then(() => cockpit.file(KEYTABLE, {"superuser": "require"}).modify((oldContent) => `${oldContent || ""}${domain} ${domain}:${selector}:${privateKeyLocation}\n`))
         .then(() => cockpit.file(SIGNINGTABLE, {"superuser": "require"}).modify(oldContent => `${oldContent || ""}*@${domain} ${domain}\n`))
         .then(() => clearInput())

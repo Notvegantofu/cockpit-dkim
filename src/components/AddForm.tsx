@@ -92,7 +92,9 @@ export const AddForm: React.FunctionComponent = () => {
     setDomain('');
     setSelector(standartSelector);
     setPublicKey('');
-    handleClear(undefined);
+    setFile(undefined);
+    setFileName('');
+    setPrivateKey('');
   }
 
   return (
@@ -135,9 +137,9 @@ export const AddForm: React.FunctionComponent = () => {
         label="Private Key"
         fieldId='simple-form-privateKey-01'
       >
-        <FileUpload   // The implementation of FileUpload seems to not be consistent with the documentation. This approch however does work perfectly fine
+        <FileUpload
           id="customized-preview-file"
-          value={file}
+          value={file || "noFile"}
           filename={fileName}
           filenamePlaceholder="Drag and drop a file or upload one"
           onFileInputChange={handleFileInputChange}
