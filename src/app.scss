@@ -32,4 +32,11 @@ p {
     top: 25px;
     right: 25px;
     z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#apply-status-message {
+    padding-right: 5px;
 }

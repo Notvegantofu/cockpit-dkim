@@ -25,7 +25,7 @@ export const KeyTable: React.FunctionComponent<TableProps> = ({ rowState, search
   const DIR = `/opendkim`;
   const KEYTABLE = `${DIR}/key.table`;
 
-  cockpit.file(KEYTABLE, {"superuser": "require"}).watch(content => renderList(content || ""));
+  const handle = cockpit.file(KEYTABLE, {"superuser": "require"}).watch(content => renderList(content || ""));
 
   async function renderList(content: string) {
     const lines = content.split("\n");
