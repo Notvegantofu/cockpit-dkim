@@ -13,6 +13,7 @@ import {
 } from '@patternfly/react-core';
 import cockpit from 'cockpit';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import { NameOutput } from './NameOutput';
 
 export const CreateForm: React.FunctionComponent = () => {
   const date = new Date();
@@ -26,6 +27,7 @@ export const CreateForm: React.FunctionComponent = () => {
   const [publicKey, setPublicKey] = useState('');
   const [validDomainInput, setValidDomainInput] = useState(true);
   const [validSelectorInput, setValidSelectorInput] = useState(true);
+    const [previousSelector, setPreviousSelector] = useState("")
 
   function handleDomainChange(_: React.FormEvent<HTMLInputElement>, domain: string) {
     setDomain(domain);
@@ -59,6 +61,7 @@ export const CreateForm: React.FunctionComponent = () => {
         .then((content) => handlePublicKeyChange(content))  // The type annotation by the cockpit API is not correct. The return value is of String, String not [String, String] This however does go against the specs of ES6 as you should not be able to pass multiple arguments in the resolve of a promise, sadly I found no way to avoid this problem, as [content] gives just the first character of the key.
         .then(() => cockpit.file(KEYTABLE, {"superuser": "require"}).modify((oldContent) => `${oldContent || ""}${domain} ${domain}:${selector}:${privateKeyLocation}\n`))
         .then(() => cockpit.file(SIGNINGTABLE, {"superuser": "require"}).modify(oldContent => `${oldContent || ""}*@${domain} ${domain}\n`))
+        .then(() => setPreviousSelector(selector))
         .then(() => clearInput())
         .catch(error => console.error(error));
   }
@@ -108,6 +111,7 @@ export const CreateForm: React.FunctionComponent = () => {
         <Button variant="primary" onClick={createKeyPair}>Create</Button>
         <Button variant="link" onClick={clearInput}>Cancel</Button>
       </ActionGroup>
+      <NameOutput content={previousSelector ? `${previousSelector}._domainkey` : ""} />
       <FormGroup
         label="Public Key"
         fieldId="simple-form-publicKey-01"

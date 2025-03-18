@@ -13,6 +13,7 @@ import {
 } from '@patternfly/react-core';
 import cockpit from 'cockpit';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import { NameOutput } from './NameOutput';
 
 export const AddForm: React.FunctionComponent = () => {
   const date = new Date();
@@ -30,6 +31,7 @@ export const AddForm: React.FunctionComponent = () => {
   const [validDomainInput, setValidDomainInput] = useState(true);
   const [validSelectorInput, setValidSelectorInput] = useState(true);
   const [validPrivateKeyInput, setValidPrivateKeyInput] = useState(true);
+  const [previousSelector, setPreviousSelector] = useState("")
 
   function handleDomainChange(_: React.FormEvent<HTMLInputElement>, domain: string) {
     setDomain(domain);
@@ -74,6 +76,7 @@ export const AddForm: React.FunctionComponent = () => {
         .then(() => cockpit.spawn(["sudo", "chmod", "0600", `${destinationDir}/${privateKeyName}`], {"superuser": "require"}))
         .then(() => cockpit.file(KEYTABLE, {"superuser": "require"}).modify((oldContent) => `${oldContent || ""}${domain} ${domain}:${selector}:${destinationDir}/${privateKeyName}\n`))
         .then(() => cockpit.file(SIGNINGTABLE, {"superuser": "require"}).modify(oldContent => `${oldContent || ""}*@${domain} ${domain}\n`))
+        .then(() => setPreviousSelector(selector))
         .then(() => clearInput())
         .catch(error => console.error(error));
   }
@@ -169,6 +172,7 @@ export const AddForm: React.FunctionComponent = () => {
         <Button variant="primary" onClick={addKeyPair}>Add</Button>
         <Button variant="link" onClick={clearInput}>Cancel</Button>
       </ActionGroup>
+      <NameOutput content={previousSelector ? `${previousSelector}._domainkey` : ""} />
     </Form>
   );
 };
