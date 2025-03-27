@@ -79,7 +79,6 @@ export const Application = () => {
 
     return (
         <>
-            <ApplyButton/>
             <Stack>
                 <StackItem><HorizontalNav setAction={setSiteContent}/></StackItem>
                 <StackItem><Divider/></StackItem>

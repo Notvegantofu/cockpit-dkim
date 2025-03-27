@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormGroup, ClipboardCopy, ClipboardCopyVariant } from '@patternfly/react-core';
+import { FormGroup, ClipboardCopy,  } from '@patternfly/react-core';
 
 interface NameProps {
   content: string;

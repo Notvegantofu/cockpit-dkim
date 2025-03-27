@@ -1,9 +1,8 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
-import { SearchInput } from '@patternfly/react-core';
+import { Tr, Td } from '@patternfly/react-table';
+
 import { ClipBoardButton } from './ClipBoardButton';
-import { MissingData } from './MissingData';
-import { LoadingData } from './LoadingData';
+import { ApplyButton } from './ApplyButton';
 import { StandardTable, HeaderValue } from 'shared/StandardTable';
 
 export interface DkimData {
@@ -51,6 +50,7 @@ export const KeyTable: React.FunctionComponent<TableProps> = ({ data, ready }) =
       headerValues={headerValues}
       rows={rows}
       ready={ready}
+      additonalToolbarItems={[<ApplyButton />]}
     />
   );
 };

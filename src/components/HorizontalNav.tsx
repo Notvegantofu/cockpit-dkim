@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, NavItem, NavList, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
+import { Nav, NavItem, NavList,  } from '@patternfly/react-core';
 import { ApplyButton } from './ApplyButton';
 
 interface NavBarProps {

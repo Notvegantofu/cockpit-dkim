@@ -22,12 +22,12 @@ export const ApplyButton: React.FunctionComponent = () => {
   }
 
   return (
-    <div id='apply-button'>
+    <>
+      <Button onClick={apply}>Apply Configuration</Button>
       <HelperText id='apply-status-message'>
         {success && <HelperTextItem icon={<CheckCircleIcon/>} variant='success'>Worked</HelperTextItem>}
         {failure && <HelperTextItem icon={<ExclamationCircleIcon/>} variant='error'>Failed (see console for Error)</HelperTextItem>}
       </HelperText>
-      <Button onClick={apply}>Apply Configuration</Button>
-    </div>
+    </>
   )
 }
