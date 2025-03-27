@@ -41,6 +41,26 @@ $(COCKPIT_REPO_STAMP): Makefile
 	    git fetch --no-tags --no-write-fetch-head --depth=1 $(COCKPIT_REPO_URL) $(COCKPIT_REPO_COMMIT)
 	git archive $(COCKPIT_REPO_TREE) -- $(COCKPIT_REPO_FILES) | tar x
 
+
+SHARED_COMPONENT_REPO_STAMP = pkg/lib/shared/TestComponent.tsx
+
+SHARED_COMPONENT_REPO_FILES = \
+	pkg/lib \
+	$(NULL)
+
+	
+SHARED_COMPONENT_REPO_URL = https://github.com/Notvegantofu/cockpit-shared-components.git
+SHARED_COMPONENT_REPO_COMMIT = 8e63b6631820232c32a971840d2a66c36bca2248
+
+$(SHARED_COMPONENT_REPO_FILES): $(SHARED_COMPONENT_REPO_STAMP)
+SHARED_COMPONENT_REPO_TREE = '$(strip $(SHARED_COMPONENT_REPO_COMMIT))^{tree}'
+
+$(SHARED_COMPONENT_REPO_STAMP): Makefile
+	@git rev-list --quiet --objects $(SHARED_COMPONENT_REPO_TREE) -- 2>/dev/null || \
+	    git fetch --no-tags --no-write-fetch-head --depth=1 $(SHARED_COMPONENT_REPO_URL) $(SHARED_COMPONENT_REPO_COMMIT)
+	git archive $(SHARED_COMPONENT_REPO_TREE) -- $(SHARED_COMPONENT_REPO_FILES) | tar x
+
+
 #
 # i18n
 #
@@ -81,7 +101,7 @@ $(SPEC): packaging/$(SPEC).in $(NODE_MODULES_TEST)
 	provides=$$(npm ls --omit dev --package-lock-only --depth=Infinity | grep -Eo '[^[:space:]]+@[^[:space:]]+' | sort -u | sed 's/^/Provides: bundled(npm(/; s/\(.*\)@/\1)) = /'); \
 	awk -v p="$$provides" '{gsub(/%{VERSION}/, "$(VERSION)"); gsub(/%{NPM_PROVIDES}/, p)}1' $< > $@
 
-$(DIST_TEST): $(NODE_MODULES_TEST) $(COCKPIT_REPO_STAMP) $(shell find src/ -type f) package.json build.js
+$(DIST_TEST): $(NODE_MODULES_TEST) $(COCKPIT_REPO_STAMP) $(SHARED_COMPONENT_REPO_STAMP) $(shell find src/ -type f) package.json build.js
 	NODE_ENV=$(NODE_ENV) ./build.js
 
 watch: $(NODE_MODULES_TEST) $(COCKPIT_REPO_STAMP)

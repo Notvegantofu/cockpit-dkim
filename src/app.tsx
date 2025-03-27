@@ -28,13 +28,13 @@ import cockpit from 'cockpit';
 
 export const Application = () => {
     const [siteContent, setSiteContent] = useState(0);
-    const rowState = useState<DkimData[]>([]);
-    const readyState = useState(false);
+    const [data, setData] = useState<DkimData[]>([]);
+    const [ready, setReady] = useState(false);
     const DIR = `/opendkim`;
     const KEYTABLE = `${DIR}/key.table`;
     
     const contentOptions = [
-        <StackItem><KeyTable rowState={rowState} readyState={readyState}/></StackItem>,
+        <StackItem><KeyTable data={data} ready={ready}/></StackItem>,
         <StackItem><AddForm/></StackItem>,
         <StackItem><CreateForm/></StackItem>
     ]
@@ -73,8 +73,8 @@ export const Application = () => {
             }})
             result.push({domain: domain, selector: selector, publicKey: publicKey})
         }
-        rowState[1](result);
-        readyState[1](true);
+        setData(result);
+        setReady(true);
     }
 
     return (

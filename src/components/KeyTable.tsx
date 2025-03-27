@@ -4,6 +4,7 @@ import { SearchInput } from '@patternfly/react-core';
 import { ClipBoardButton } from './ClipBoardButton';
 import { MissingData } from './MissingData';
 import { LoadingData } from './LoadingData';
+import { StandardTable, HeaderValue } from 'shared/StandardTable';
 
 export interface DkimData {
   domain: string;
@@ -12,15 +13,11 @@ export interface DkimData {
 }
 
 interface TableProps {
-  rowState: [DkimData[], Dispatch<SetStateAction<DkimData[]>>];
-  readyState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  data: DkimData[];
+  ready: boolean;
 }
 
-export const KeyTable: React.FunctionComponent<TableProps> = ({ rowState, readyState }) => {
-  const [ rows, setRows ] = rowState;
-  const [ searchValue, setSearchValue ] = useState('');
-  const [ ready, setReady ] = readyState;
-  const filteredRows = rows.filter(onFilter);
+export const KeyTable: React.FunctionComponent<TableProps> = ({ data, ready }) => {
   const columnNames = {
     domain: 'Domain',
     selector: 'Selector',
@@ -31,52 +28,29 @@ export const KeyTable: React.FunctionComponent<TableProps> = ({ rowState, readyS
     navigator.clipboard.writeText(publicKey);
   }
 
-  function onFilter(row: DkimData) {
-    if (searchValue === '') {
-      return true;
-    }
+  const headerValues: HeaderValue[] = [
+    {text: columnNames.domain, sortable: true, filtrable: true, width: 40, textCenter: false},
+    {text: columnNames.selector, filtrable: true, width: 30, textCenter: false},
+    {text: columnNames.publicKey, width: 30, textCenter: false},
+  ]
 
-    let input: RegExp;
-    try {
-      input = new RegExp(searchValue, 'i');
-    } catch (err) {
-      input = new RegExp(searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+  const rows = data.map(dkimData => { return {
+    row: 
+      <Tr key={dkimData.domain}>
+        <Td dataLabel={columnNames.domain}>{dkimData.domain}</Td>
+        <Td dataLabel={columnNames.selector}>{dkimData.selector}</Td>
+        <Td dataLabel={columnNames.publicKey}><ClipBoardButton handleCopying={copyToClipBoard} publicKey={dkimData.publicKey}/></Td>
+      </Tr>,
+    values: [dkimData.domain, dkimData.selector, ""]
     }
-    return row.domain.search(input) >= 0;
-  };
+  })
+  
 
   return (
-    <>
-      <SearchInput
-        placeholder="Search by domain"
-        value={searchValue}
-        onChange={(_event, value) => setSearchValue(value)}
-        onClear={() => setSearchValue('')}
-      />
-      <Table
-      aria-label="DKIM table"
-      variant='compact'
-      >
-        <Thead>
-          <Tr>
-            <Th>{columnNames.domain}</Th>
-            <Th>{columnNames.selector}</Th>
-            <Th>{columnNames.publicKey}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {!ready ? <LoadingData/> :
-            filteredRows.length === 0 ? <MissingData/> :
-              filteredRows.map((dkimData) => (
-                <Tr key={dkimData.domain}>
-                  <Td dataLabel={columnNames.domain}>{dkimData.domain}</Td>
-                  <Td dataLabel={columnNames.selector}>{dkimData.selector}</Td>
-                  <Td dataLabel={columnNames.publicKey}><ClipBoardButton handleCopying={copyToClipBoard} publicKey={dkimData.publicKey}/></Td>
-                </Tr>
-              ))
-          }
-        </Tbody>
-      </Table>
-    </>
+    <StandardTable
+      headerValues={headerValues}
+      rows={rows}
+      ready={ready}
+    />
   );
 };
