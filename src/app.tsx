@@ -18,12 +18,11 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Stack, StackItem, Divider } from "@patternfly/react-core";
-import { HorizontalNav } from './components/HorizontalNav';
+import { Divider } from "@patternfly/react-core";
+import { HorizontalNav } from 'shared/HorizontalNav';
 import { KeyTable, DkimData } from './components/KeyTable'
 import { AddForm } from './components/AddForm'
 import { CreateForm } from './components/CreateForm'
-import { ApplyButton } from './components/ApplyButton';
 import cockpit from 'cockpit';
 
 export const Application = () => {
@@ -32,12 +31,11 @@ export const Application = () => {
     const [ready, setReady] = useState(false);
     const DIR = `/opendkim`;
     const KEYTABLE = `${DIR}/key.table`;
-    
-    const contentOptions = [
-        <StackItem><KeyTable data={data} ready={ready}/></StackItem>,
-        <StackItem><AddForm/></StackItem>,
-        <StackItem><CreateForm/></StackItem>
-    ]
+    const list = <KeyTable data={data} ready={ready}/>;
+    const addForm = <AddForm/>;
+    const createForm = <CreateForm/>;
+    const pages = ['List', 'AddForm', 'CreateForm'];
+    const [ currentPage, setCurrentPage ] = useState('List')
     
     useEffect(() => {
         const handle = cockpit.file(KEYTABLE, {"superuser": "require"}).watch(content => renderList(content || ""));
@@ -45,6 +43,14 @@ export const Application = () => {
             handle.remove;
         }
     }, []);
+
+    function renderPage() {
+      switch(cockpit.location.path[0]){
+        case 'AddForm': return addForm;
+        case 'CreateForm': return createForm;
+        default: return list;
+      }
+    }
     
 
     async function renderList(content: string) {
@@ -78,12 +84,13 @@ export const Application = () => {
     }
 
     return (
-        <>
-            <Stack>
-                <StackItem><HorizontalNav setAction={setSiteContent}/></StackItem>
-                <StackItem><Divider/></StackItem>
-                {contentOptions[siteContent]}
-            </Stack>
-        </>
+      <>
+        <HorizontalNav
+          pages={pages}
+          setCurrentPage={setCurrentPage}
+        />
+        <Divider/>
+        {renderPage()}
+      </>
     );
 };
