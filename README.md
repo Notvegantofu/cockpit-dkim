@@ -12,13 +12,12 @@ On Fedora:
 
     sudo dnf install gettext nodejs npm make
 
-
 # Getting and building the source
 
 These commands check out the source and build it into the `dist/` directory:
 
 ```
-git clone https://github.com/Notvegantofu/cockpit-dkim/actions
+git clone https://github.com/valetobias/cockpit-dkim/actions
 cd cockpit-dkim
 make
 ```

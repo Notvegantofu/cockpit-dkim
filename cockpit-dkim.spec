@@ -4,8 +4,8 @@ Release: 1%{?dist}
 Summary: Cockpit DKIM Plugin
 License: LGPL-2.1-or-later
 
-Source0: https://github.com/Notvegantofu/cockpit-dkim/releases/download/%{version}/%{name}-%{version}.tar.xz
-Source1: https://github.com/Notvegantofu/cockpit-dkim/releases/download/%{version}/%{name}-node-%{version}.tar.xz
+Source0: https://github.com/valetobias/cockpit-dkim/releases/download/%{version}/%{name}-%{version}.tar.xz
+Source1: https://github.com/valetobias/cockpit-dkim/releases/download/%{version}/%{name}-node-%{version}.tar.xz
 BuildArch: noarch
 %if ! 0%{?suse_version}
 ExclusiveArch: %{nodejs_arches} noarch

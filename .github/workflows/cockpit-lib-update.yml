@@ -1,8 +1,8 @@
 name: cockpit-lib-update
 on:
   schedule:
-    - cron: '0 2 * * 4'
-  # can be run manually on https://github.com/Notvegantofu/cockpit-dkim/actions
+    - cron: "0 2 * * 4"
+  # can be run manually on https://github.com/valetobias/cockpit-dkim/actions
   workflow_dispatch:
 jobs:
   cockpit-lib-update:

@@ -1,8 +1,8 @@
 name: tasks-container-update
 on:
   schedule:
-    - cron: '0 2 * * 1'
-  # can be run manually on https://github.com/Notvegantofu/cockpit-dkim/actions
+    - cron: "0 2 * * 1"
+  # can be run manually on https://github.com/valetobias/cockpit-dkim/actions
   workflow_dispatch:
 jobs:
   tasks-container-update:

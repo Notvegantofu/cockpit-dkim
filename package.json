@@ -3,7 +3,7 @@
   "description": "Scaffolding for a cockpit module",
   "type": "module",
   "main": "index.js",
-  "repository": "github:Notvegantofu/cockpit-dkim",
+  "repository": "github:valetobias/cockpit-dkim",
   "author": "Tobias Vale",
   "license": "LGPL-2.1",
   "engines": {
